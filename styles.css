@@ -144,6 +144,8 @@ input:focus {
 }
 
 .city-list {
+  display: flex;
+  flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -166,6 +168,12 @@ input:focus {
 .city-list li:hover,
 .city-list li:focus {
   background: #f3f4f6;
+}
+
+.city-list li.selected {
+  background: #dbeafe; 
+  font-weight: bold;
+  order: -1;
 }
 
 .air-info {
@@ -243,10 +251,7 @@ input:focus {
   outline: none;
 }
 
-.city-list li.selected {
-  background: #dbeafe; 
-  font-weight: bold;
-}
+
 
 @media (max-width: 980px) {
   .app-main {

@@ -1,7 +1,7 @@
 import { EstadoAplicacao } from "./config.js";
 import { fetchJSON, getCityCoords, getAirQuality } from "./api.js";
 import { setStatus, debounce } from "./utils.js";
-import { renderAirQualityInfo } from "./air.js"; // exporte essa função no air.js
+import { renderAirQualityInfo } from "./air.js"; 
 
 
 // Clique em um estado
@@ -24,6 +24,63 @@ export async function handleStateClick(estado) {
 
   // Ajusta mapa para o estado
   EstadoAplicacao.mapa.fitBounds(estado.layer.getBounds());
+}
+
+
+// Função auxiliar para carregar dados de uma cidade
+async function handleCitySelection(cidadeNome, siglaUF) {
+  setStatus(`Carregando AQI de ${cidadeNome}/${siglaUF}...`);
+
+  const listaElementos = document.getElementById("lista-cidades");
+  listaElementos.querySelectorAll("li").forEach(el => el.classList.remove("selected"));
+  
+  // procura o li correspondente pelo texto
+  let liElement = Array.from(listaElementos.children)
+    .find(el => el.textContent.toLowerCase() === cidadeNome.toLowerCase());
+  
+
+  if (liElement) {
+    liElement.classList.add("selected");
+  }
+
+  // Busca coordenadas e AQI
+  const coords = await getCityCoords(cidadeNome, siglaUF);
+  if (!coords) return;
+
+  const qualidadeAr = await getAirQuality(coords.lat, coords.lon);
+  if (!qualidadeAr) return;
+
+  // Resetar estilos anteriores
+  EstadoAplicacao.municipiosLayers.forEach(l => l.setStyle({
+    color: "#6b7280",
+    weight: 0.7,
+    fillColor: "#d1d5db",
+    fillOpacity: 0.2,
+  }));
+
+  // Encontra layer correspondente
+  const municipioLayer = Array.from(EstadoAplicacao.municipiosLayers.values())
+    .find(l => l.feature.properties.NM_MUN.toLowerCase() === cidadeNome.toLowerCase());
+
+  if (municipioLayer) {
+    municipioLayer.setStyle({
+      color: "#000",
+      weight: 1,
+      fillColor: getColorByAQI(qualidadeAr.aqi),
+      fillOpacity: 0.6,
+    });
+
+    EstadoAplicacao.mapa.fitBounds(municipioLayer.getBounds(), { maxZoom: 6 });
+  }
+
+  // Atualiza painel lateral
+  const cidade = {
+    nome: cidadeNome,
+    ufSigla: siglaUF,
+    lat: coords.lat,
+    lon: coords.lon,
+  };
+  renderAirQualityInfo(cidade, qualidadeAr);
 }
 
 
@@ -71,53 +128,9 @@ function renderCityList(lista, siglaUF) {
     li.textContent = cidadeItem.nome;
 
     li.onclick = async () => {
-      // Remove seleção anterior
-      listaElementos.querySelectorAll("li").forEach(el => el.classList.remove("selected"));
-      li.classList.add("selected");
-
-      setStatus(`Carregando AQI de ${cidadeItem.nome}/${siglaUF}...`);
-
-      // Busca coordenadas e AQI
-      const coords = await getCityCoords(cidadeItem.nome, siglaUF);
-      if (!coords) return;
-
-      const qualidadeAr = await getAirQuality(coords.lat, coords.lon);
-      if (!qualidadeAr) return;
-
-      // Encontra e pinta polígono do município
-      const municipioLayer = Array.from(EstadoAplicacao.municipiosLayers.values())
-        .find(l => l.feature.properties.NM_MUN.toLowerCase() === cidadeItem.nome.toLowerCase());
-
-      if (municipioLayer) {
-        // Resetar estilos anteriores
-        EstadoAplicacao.municipiosLayers.forEach(l => l.setStyle({
-          color: "#6b7280",
-          weight: 0.7,
-          fillColor: "#d1d5db",
-          fillOpacity: 0.2,
-        }));
-
-        // Aplica cor conforme AQI
-        municipioLayer.setStyle({
-          color: "#000",
-          weight: 1,
-          fillColor: getColorByAQI(qualidadeAr.aqi),
-          fillOpacity: 0.6,
-        });
-
-        EstadoAplicacao.mapa.fitBounds(municipioLayer.getBounds(), {maxZoom: 6});
-      }
-
-      // Atualiza painel lateral
-      const cidade = {
-        nome: cidadeItem.nome,
-        ufSigla: siglaUF,
-        lat: coords.lat,
-        lon: coords.lon,
-      };
-      renderAirQualityInfo(cidade, qualidadeAr);
-    };
-
+      await handleCitySelection(cidadeItem.nome, siglaUF);
+    }
+    
     listaElementos.appendChild(li);
   });
 }
@@ -151,6 +164,8 @@ async function loadMunicipiosGeoJSON(siglaUF) {
         if (codigo) {
           EstadoAplicacao.municipiosLayers.set(codigo, layer);
         }
+
+        layer.on("click", () => { handleCitySelection(nome, siglaUF); });        
       },
     }).addTo(EstadoAplicacao.mapa);
 

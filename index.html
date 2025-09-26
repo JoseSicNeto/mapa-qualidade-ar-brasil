@@ -19,7 +19,7 @@
   <body>
     <header class="app-header" role="banner">
       <h1 id="app-title">Qualidade do Ar no Brasil</h1>
-      <p id="app-subtitle">Clique em um estado, depois selecione uma cidade para ver o AQI e os principais poluentes.</p>
+      <p id="app-subtitle">Clique em um estado, depois clique em uma cidade para ver o AQI e os principais poluentes.</p>
     </header>
 
     <main class="app-main" role="main">
@@ -58,17 +58,6 @@
           </div>
         </section>
 
-        <section class="panel-section" aria-labelledby="section-legenda">
-          <h3 id="section-legenda">Legenda AQI</h3>
-          <ul class="legend" aria-label="Legenda de qualidade do ar">
-            <li> <span class="legend-color aqi-1" aria-hidden="true"></span> 1: Bom </li>
-            <li> <span class="legend-color aqi-2" aria-hidden="true"></span> 2: Moderado </li>
-            <li> <span class="legend-color aqi-3" aria-hidden="true"></span> 3: Ruim para sensíveis </li>
-            <li> <span class="legend-color aqi-4" aria-hidden="true"></span> 4: Ruim </li>
-            <li> <span class="legend-color aqi-5" aria-hidden="true"></span> 5: Muito ruim </li>
-          </ul>
-        </section>
-
         <section class="panel-section" aria-labelledby="section-status">
           <h3 id="section-status">Status</h3>
           <div id="status" class="status" role="status" aria-live="polite">
@@ -78,8 +67,17 @@
       </aside>
 
       <section class="map-wrap" aria-label="Mapa do Brasil com estados e cidades clicáveis">
-        <div id="map" tabindex="0" role="region" aria-label="Mapa interativo">
-        </div>
+        <div id="map" tabindex="0" role="region" aria-label="Mapa interativo"> </div>
+          <!-- <div id="map-legend" class="map-legend" aria-label="Legenda de qualidade do ar"> 
+            <ul class="legend" aria-label="Legenda de qualidade do ar">
+              <li> <span class="legend-color aqi-1" aria-hidden="true"></span> 1: Bom </li>
+              <li> <span class="legend-color aqi-2" aria-hidden="true"></span> 2: Moderado </li>
+              <li> <span class="legend-color aqi-3" aria-hidden="true"></span> 3: Ruim para sensíveis </li>
+              <li> <span class="legend-color aqi-4" aria-hidden="true"></span> 4: Ruim </li>
+              <li> <span class="legend-color aqi-5" aria-hidden="true"></span> 5: Muito ruim </li>
+            </ul>
+          </div> -->
+        
       </section>
     </main>
 

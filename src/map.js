@@ -2,6 +2,25 @@ import { EstadoAplicacao, BRAZIL_BOUNDS } from "./config.js";
 import { setStatus } from "./utils.js";
 
 
+function createMapLegend() {
+  const legenda = L.control({ position: "bottomleft" });
+  legenda.onAdd = function () {
+    const div = L.DomUtil.create("div", "map-legend leaflet-control");
+    div.innerHTML = `
+      <ul>
+        <li><span class="legend-color aqi-1"></span> 1: Bom</li>
+        <li><span class="legend-color aqi-2"></span> 2: Moderado</li>
+        <li><span class="legend-color aqi-3"></span> 3: Ruim para sensíveis</li>
+        <li><span class="legend-color aqi-4"></span> 4: Ruim</li>
+        <li><span class="legend-color aqi-5"></span> 5: Muito ruim</li>
+      </ul>
+    `;
+  return div;
+  };
+
+  legenda.addTo(EstadoAplicacao.mapa);
+}
+
 // Inicialização do mapa
 export function initMap() {
   EstadoAplicacao.mapa = L.map("map", { minZoom: 4, maxZoom: 18 }).setView(
@@ -24,6 +43,9 @@ export function initMap() {
 
   // Botão de reset
   document.getElementById("btn-reset").addEventListener("click", resetMapView);
+
+  // Legenda
+  createMapLegend();
 }
 
 

@@ -82,8 +82,41 @@ body {
   outline: none;
 }
 
-.panel-section {
-  margin-bottom: 1rem;
+.map-legend {
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  z-index: 2000;
+}
+
+.map-legend ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.map-legend li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.map-legend li:last-child {
+  margin-bottom: 0;
+}
+
+.map-legend .legend-color {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 3px;
+  border: 1px solid #00000022;
 }
 
 .chip {
@@ -251,14 +284,18 @@ input:focus {
   outline: none;
 }
 
-
-
 @media (max-width: 980px) {
   .app-main {
     grid-template-columns: 1fr;
   }
   #map {
     height: 50vh;
+  }
+  .map-legend {
+    font-size: 0.8rem;
+    padding: 8px 10px;
+    bottom: 15px;
+    left: 15px;
   }
 }
 
@@ -268,5 +305,16 @@ input:focus {
   }
   .app-header h1 {
     font-size: 1rem;
+  }
+  .map-legend {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    bottom: 10px;
+    left: 10px;
+  }
+  .map-legend .legend-color {
+    width: 0.8rem;
+    height: 0.8rem;
+    margin-right: 0.4rem;
   }
 }

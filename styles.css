@@ -1,0 +1,267 @@
+:root {
+  --color-bg: #ffffff;
+  --color-fg: #1f2937;
+  --color-muted: #6b7280;
+  --color-primary: #2563eb;
+  --color-primary-contrast: #ffffff;
+  --color-border: #e5e7eb;
+  --color-focus: #111827;
+  --color-success: #2ecc71;
+
+  --aqi-1: #2ecc71;
+  --aqi-2: #f1c40f;
+  --aqi-3: #e67e22;
+  --aqi-4: #e74c3c;
+  --aqi-5: #8e44ad;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--color-fg);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+.app-header,
+.app-footer {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-footer {
+  border-top: 1px solid var(--color-border);
+  border-bottom: none;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.app-header h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.25rem;
+}
+
+.app-header p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 120px);
+}
+
+.sidebar {
+  border-right: 1px solid var(--color-border);
+  padding: 1rem;
+  overflow: auto;
+}
+
+.map-wrap {
+  position: relative;
+}
+
+#map {
+  height: calc(100vh - 120px);
+  width: 100%;
+  outline: none;
+}
+
+.panel-section {
+  margin-bottom: 1rem;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #f9fafb;
+}
+
+.actions {
+  margin-top: 0.5rem;
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.btn:focus,
+input:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#city-search {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+}
+
+.help-text {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.hint {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+.city-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+}
+
+.city-list li {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.city-list li:last-child {
+  border-bottom: none;
+}
+
+.city-list li:hover,
+.city-list li:focus {
+  background: #f3f4f6;
+}
+
+.air-info {
+  border: 1px solid var(--color-border);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+}
+
+.legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  vertical-align: -2px;
+  border: 1px solid #00000022;
+}
+
+.aqi-1 {
+  background: var(--aqi-1);
+}
+.aqi-2 {
+  background: var(--aqi-2);
+}
+.aqi-3 {
+  background: var(--aqi-3);
+}
+.aqi-4 {
+  background: var(--aqi-4);
+}
+.aqi-5 {
+  background: var(--aqi-5);
+}
+
+.status {
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  padding: 0.5rem;
+  border: 1px dashed var(--color-border);
+  border-radius: 0.5rem;
+  background: #fafafa;
+}
+
+.sr-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.leaflet-container {
+  font: inherit;
+}
+
+.leaflet-tooltip {
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.leaflet-control-zoom a {
+  outline: none;
+}
+
+.city-list li.selected {
+  background: #dbeafe; 
+  font-weight: bold;
+}
+
+@media (max-width: 980px) {
+  .app-main {
+    grid-template-columns: 1fr;
+  }
+  #map {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    padding: 0.5rem;
+  }
+  .app-header h1 {
+    font-size: 1rem;
+  }
+}

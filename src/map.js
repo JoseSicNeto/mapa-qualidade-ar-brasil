@@ -51,8 +51,12 @@ export function initMap() {
 
 // Resetar visão do mapa
 export function resetMapView() {
-  EstadoAplicacao.estadoSelecionado = null;
-  EstadoAplicacao.cidadeSelecionada = null;
+  if (EstadoAplicacao.estadoSelecionado?.layer) {
+    EstadoAplicacao.camadaEstados.resetStyle(EstadoAplicacao.estadoSelecionado.layer);
+  }
+
+  // EstadoAplicacao.estadoSelecionado = null;
+  // EstadoAplicacao.cidadeSelecionada = null;
 
   // Remove camada de municípios se existir
   if (EstadoAplicacao.camadaMunicipios) {

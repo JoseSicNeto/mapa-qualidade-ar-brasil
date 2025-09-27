@@ -38,6 +38,8 @@ export function renderAirQualityInfo(cidade, qualidadeAr) {
   const interpretacao = interpretAirQualityIndex(qualidadeAr.aqi);
   const poluentes = formatPollutantValues(qualidadeAr.components);
 
+  EstadoAplicacao.poluentes = poluentes;
+  
   // Data/hora local formatada
   const dataLocal = new Date(qualidadeAr.dt * 1000);
   const formatador = new Intl.DateTimeFormat("pt-BR", {
@@ -109,3 +111,4 @@ function formatPollutantValues(componentes) {
     co: f(componentes?.co),
   };
 }
+
